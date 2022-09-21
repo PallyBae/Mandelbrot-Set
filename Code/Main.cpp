@@ -4,6 +4,7 @@ using namespace sf;
 #include <complex>
 #include <vector>
 #include <cmath>
+#include <sstream>
 #include "ComplexPlane.h"
 #include "ComplexPlane.cpp"
 using namespace std;
@@ -58,7 +59,6 @@ int main()
     int point_counter = 0;
     int pixelWidth = 1;
     size_t iterations_storage;
-    Text instruction_text;
 
     /*----------------------------------*\
     **************************************

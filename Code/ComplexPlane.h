@@ -4,6 +4,7 @@
 //CHECK IT OUT!!!
 
 
+
 //Global Variables
 const unsigned int MAX_ITER = 64;
 const float BASE_WIDTH = 4.0;
@@ -17,30 +18,15 @@ class ComplexPlane
         ComplexPlane(float aspectRatio);
         void zoomIn();
         void zoomOut();
-        void setCenter(Vector2f coord)
-        {
-
-        }
+        void setCenter(Vector2f coord);
         View getView()
         {
 
         }
-        void setMouseLocation(Vector2f coord)
-        {
-            m_mouseLocation = coord;
-        }
-        void loadText(Text& text)
-        {
-
-        }
-        static size_t countIterations(Vector2f coord)
-        {
-
-        }
-        static void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
-        {
-
-        }
+        void setMouseLocation(Vector2f coord);
+        void loadText(Text& text);
+        static size_t countIterations(Vector2f coord);
+        static void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
 
         private:
         Vector2f m_mouseLocation;
