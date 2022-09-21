@@ -104,7 +104,7 @@ int main()
                 //  Left click will zoomIn and setCenter of the ComplexPlane object
                 if (event.mouseButton.button == Mouse::Left)
                 {
-                    mouse = window.mapPixelToCoords(Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    mouse = window.mapPixelToCoords(Vector2i(event.mouseButton.x, event.mouseButton.y), c_plane.getView());
 
                     //Left click will zoomIn and setCenter of the ComplexPlane object
                     c_plane.setCenter(mouse);

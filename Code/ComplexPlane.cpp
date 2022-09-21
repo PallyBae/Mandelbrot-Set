@@ -67,6 +67,12 @@ void ComplexPlane::setCenter(Vector2f coord)
     m_view.setCenter(coord);
 }
 
+//  Get View Function
+View ComplexPlane::getView()
+{
+    return m_view;
+}
+
 //  Head of Mouse location relations
 void ComplexPlane::setMouseLocation(Vector2f coord)
 {

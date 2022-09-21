@@ -19,10 +19,7 @@ class ComplexPlane
         void zoomIn();
         void zoomOut();
         void setCenter(Vector2f coord);
-        View getView()
-        {
-
-        }
+        View getView();
         void setMouseLocation(Vector2f coord);
         void loadText(Text& text);
         static size_t countIterations(Vector2f coord);
