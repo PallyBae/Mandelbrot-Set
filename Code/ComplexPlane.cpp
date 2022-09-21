@@ -1,5 +1,4 @@
-
-
+#include "ComplexPlane.h"
 //  This contains the code for the header file
 //  Pretty neat innit
 
@@ -29,7 +28,7 @@ void ComplexPlane::zoomIn()
     m_zoomCount ++;
 
     //  Local Variable
-    Vector2f xySize;
+    sf::Vector2f xySize;
 
     //  Set a local variable for the x size to BASE_WIDTH*(BASE_ZOOM to the m_ZoomCount power)
     xySize.x = BASE_WIDTH*(pow(BASE_ZOOM, m_zoomCount));
@@ -48,7 +47,7 @@ void ComplexPlane::zoomOut()
     m_zoomCount --;
 
     //  Local Variable
-    Vector2f xySize;
+    sf::Vector2f xySize;
 
     //  Set a local variable for the x size to BASE_WIDTH*(BASE_ZOOM to the m_ZoomCount power)
     xySize.x = BASE_WIDTH*(pow(BASE_ZOOM, m_zoomCount));
@@ -61,49 +60,49 @@ void ComplexPlane::zoomOut()
 }
 
 //  Set Center Function
-void ComplexPlane::setCenter(Vector2f coord)
+void ComplexPlane::setCenter(sf::Vector2f coord)
 {
     //  setCenter for m_view to the given coordinate
     m_view.setCenter(coord);
 }
 
 //  Get View Function
-View ComplexPlane::getView()
+sf::View ComplexPlane::getView()
 {
     return m_view;
 }
 
 //  Head of Mouse location relations
-void ComplexPlane::setMouseLocation(Vector2f coord)
+void ComplexPlane::setMouseLocation(sf::Vector2f coord)
 {
     m_mouseLocation = coord;
 }
 
 //  Text Loading Function
-void ComplexPlane::loadText(Text& text)
+void ComplexPlane::loadText(sf::Text& text)
 {
     //  Creating a local stringstream variable
-    stringstream ss;
+    std::stringstream ss;
 
     //  Pass the text input I want into the local variable
-    ss << "Mandelbrot Set" << endl << "Center: (" << m_view.getCenter().x << "," << m_view.getCenter().y << ")" <<
-    endl << "Cursor: (" << m_mouseLocation.x << "," << m_mouseLocation.y << ")" << endl <<
-    "Left-click to Zoom in" << endl << "Right-click to Zoom out";
+    ss << "Mandelbrot Set" << std::endl << "Center: (" << m_view.getCenter().x << "," << m_view.getCenter().y << ")" <<
+    std::endl << "Cursor: (" << m_mouseLocation.x << "," << m_mouseLocation.y << ")" << std::endl <<
+    "Left-click to Zoom in" << std::endl << "Right-click to Zoom out";
 
     //  setString the stringstream variable into the text object
     text.setString(ss.str());
 }
 
 //  Iteration Counting Function
-size_t ComplexPlane::countIterations(Vector2f coord)
+size_t ComplexPlane::countIterations(sf::Vector2f coord)
 {
     size_t iteration_count = 0;
     size_t final_iteration_count = 0;
     double real_number = coord.x;
     double imaginary_number = coord.y;
-    complex <double> c (real_number, imaginary_number);
-    complex <double> z (0.0,0.0);
-    while (iteration_count < MAX_ITER || final_iteration_count > 0)
+    std::complex <double> c (real_number, imaginary_number);
+    std::complex <double> z (0.0,0.0);
+    while (iteration_count < MAX_ITER || final_iteration_count > 0) ///!!! Infinite Loop!!! 
     {
         z = z*z + c;
         iteration_count ++;
@@ -116,7 +115,7 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 }
 
 //  Iteration To RGB Color Function
-void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
+void ComplexPlane::iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf::Uint8& b)
 {
     //  Default condition
     if (count == MAX_ITER)
