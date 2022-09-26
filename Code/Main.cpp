@@ -44,9 +44,10 @@ int main()
     sf::Text instruction_text;
 
     //  Construct a VertexArray
-    sf::VertexArray vertex_array(sf::Points, 0);
-    //vertex_array.setPrimitiveType(sf::Points);
-    vertex_array.resize(currentWindowWidth*currentWindowHeight*1); //!!! using the 2 window vars made this line a bit cleaner imo
+    sf::VertexArray vertex_array(sf::Points);
+    int pixelWidth = 1;
+
+    vertex_array.resize(currentWindowWidth*currentWindowHeight*pixelWidth); //!!! using the 2 window vars made this line a bit cleaner imo
 
     //  Create an enum class state variable with states CALCULATING and DISPLAYING
     enum state 
@@ -67,7 +68,6 @@ int main()
     sf::Vector2f mouse;
     sf::Vector2f pixel_location;
     int point_counter = 0;
-    int pixelWidth = 1;
     size_t iterations_storage;
 
     /*----------------------------------*\
@@ -161,8 +161,18 @@ int main()
         {
             //  Double for loop to loop through all pixels in the screen height and width
             //  Use j for x and i for y
-            for(int i = 0; i < currentWindowHeight; i++) //!!! using the new currentWindowHeight var
+            int i = 0;
+            int percentUpdate = 0;
+            int prevPercent = 0;
+            //point_counter = 0;
+            for(i = 0; i < currentWindowHeight; i++) //!!! using the new currentWindowHeight var
             {
+                percentUpdate = (i / currentWindowHeight) * 100;
+                if (percentUpdate != prevPercent && percentUpdate % 5 == 0)
+                {
+                    std::cout << "Percent: " << percentUpdate << std::endl;
+                }
+
                 for(int j = 0; j < currentWindowWidth; j++) //!!! using the new currentWindowWidth var
                 {
                     vertex_array[point_counter].position = sf::Vector2f(j,i);
@@ -192,10 +202,11 @@ int main()
 
                     //  Set the color variable in the element of VertexArray that corresponds to the screen coordinate j,i
                     vertex_array[j+i*pixelWidth].color = {r,g,b};
-
                 }
+                prevPercent = percentUpdate;
 
             }
+            std::cout << "Percent: 100" << std::endl;
 
             //  Set the state to DISPLAYING
             state_variable = DISPLAYING;

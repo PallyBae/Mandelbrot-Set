@@ -102,7 +102,8 @@ size_t ComplexPlane::countIterations(sf::Vector2f coord)
     double imaginary_number = coord.y;
     std::complex <double> c (real_number, imaginary_number);
     std::complex <double> z (0.0,0.0);
-    while (iteration_count < MAX_ITER || final_iteration_count > 0) ///!!! Infinite Loop!!! 
+
+    while (iteration_count < MAX_ITER && final_iteration_count <= 0) ///!!! Infinite Loop!!!
     {
         z = z*z + c;
         iteration_count ++;
