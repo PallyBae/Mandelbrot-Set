@@ -48,6 +48,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
 
 
 ################### Cleaning rules for Unix-based OS ###################
+#Attempts to run the project
+.PHONY: run
+run:
+	./$(APPNAME)
 # Cleans complete project
 .PHONY: clean
 clean:
