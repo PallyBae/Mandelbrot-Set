@@ -1,13 +1,6 @@
-#include <SFML/Graphics.hpp>
-using namespace sf;
-#include <iostream>
-#include <complex>
-#include <vector>
-#include <cmath>
+
 #include <sstream>
 #include "ComplexPlane.h"
-#include "ComplexPlane.cpp"
-using namespace std;
 
 /*-------------------------------------------------*\
 *****************************************************
@@ -27,6 +20,8 @@ int main()
     //  Construct your window
     RenderWindow window(desktop, "Mandelbrot Set!!", Style::Default);
     //  Construct an object of type ComplexPlane
+    //View main_view(FloatRect(0, 0, desktop.width,desktop.height));
+    //ComplexPlane c_plane(aspect_ratio, main_view);
     ComplexPlane c_plane(aspect_ratio);
 
     //  Construct Font and Text Objects
@@ -56,9 +51,10 @@ int main()
     Vector2i clicked;
     Vector2f mouse;
     Vector2f pixel_location;
-    int point_counter = 0;
+    //int point_counter = 0;
     int pixelWidth = 1;
-    size_t iterations_storage;
+    size_t iterations_storage = 0;
+    
 
     /*----------------------------------*\
     **************************************
@@ -151,12 +147,13 @@ int main()
         {
             //  Double for loop to loop through all pixels in the screen height and width
             //  Use j for x and i for y
-            for(int i = 0; i < desktop.height; i++)
+            for(unsigned int i = 0; i < desktop.height; i++)
             {
-                for(int j = 0; j < desktop.width; j++)
+                cout << i << endl;
+                for(unsigned int j = 0; j < desktop.width; j++)
                 {
-                    vertex_array[point_counter].position = Vector2f(j,i);
-                    point_counter ++;
+                    //vertex_array[point_counter].position = Vector2f(j,i);
+                    //point_counter ++;
 
                     //  Set the position variable in the element of VertexArray
                     //  that corresponds to the screen coordinate j,i
@@ -165,7 +162,8 @@ int main()
 
                     //  Use mapPixelToCoords to find the Vector2f coordinate in the ComplexPlane View
                     //  that corresponds to the screen pixel location at j,i
-                    pixel_location = window.mapPixelToCoords(Vector2i(j, i));
+                    ///pixel_location = window.mapPixelToCoords(Vector2i(j, i));
+                    pixel_location = window.mapPixelToCoords(Vector2i(j, i), c_plane.getView());
 
                     //  Call ComplexPlane::countIterations for the Vector2f coordinate in the ComplexPlane and store the number of iterations
                     iterations_storage = ComplexPlane::countIterations(pixel_location);
@@ -187,10 +185,10 @@ int main()
 
             //  Set the state to DISPLAYING
             state_variable = DISPLAYING;
-
-            //  Call loadText from the ComplexPlane object
-            c_plane.loadText(instruction_text);
         }
+
+        //  Call loadText from the ComplexPlane object
+        c_plane.loadText(instruction_text);
 
         /*--------------------------------------*\
         ******************************************
@@ -203,7 +201,10 @@ int main()
         \*--------------------------------------*/
 
         //  Clear the window
-        window.clear();
+        window.clear(Color(25, 25, 25, 255));
+
+        //  View Stuff
+        // window.setView(c_plane.getView());  
 
         //  Draw the VertexArray
         window.draw(vertex_array);

@@ -1,15 +1,18 @@
 
-
+#include "ComplexPlane.h"
 //  This contains the code for the header file
 //  Pretty neat innit
 
 
 
 //  Default constructor for the ComplexPlane class
+//ComplexPlane::ComplexPlane(float aspectRatio, View view_temp)
 ComplexPlane::ComplexPlane(float aspectRatio)
 {
     //  Store the aspectRatio into m_aspectRatio
     m_aspectRatio = aspectRatio;
+
+    //m_view = view_temp;
 
     //  setSize of the m_view variable to BASE_WIDTH, -BASE_HEIGHT*m_aspectRatio
     //  Negative size for the height will invert the vertical axis
@@ -103,7 +106,7 @@ size_t ComplexPlane::countIterations(Vector2f coord)
     double imaginary_number = coord.y;
     complex <double> c (real_number, imaginary_number);
     complex <double> z (0.0,0.0);
-    while (iteration_count < MAX_ITER || final_iteration_count > 0)
+    while (iteration_count < MAX_ITER && final_iteration_count <= 0)
     {
         z = z*z + c;
         iteration_count ++;

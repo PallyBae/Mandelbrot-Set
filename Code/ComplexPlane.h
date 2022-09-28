@@ -3,7 +3,13 @@
 //THIS IS A HEADER FILE
 //CHECK IT OUT!!!
 
-
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <complex>
+#include <vector>
+#include <cmath>
+using namespace std;
+using namespace sf;
 
 //Global Variables
 const unsigned int MAX_ITER = 64;
@@ -15,6 +21,7 @@ const float BASE_ZOOM = 0.5;
 class ComplexPlane
     {
         public:
+        //ComplexPlane(float aspectRatio, View view_temp);
         ComplexPlane(float aspectRatio);
         void zoomIn();
         void zoomOut();
