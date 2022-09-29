@@ -37,7 +37,7 @@ int main()
     //  Get the desktop resolution using:
     sf::VideoMode desktop(currentWindowWidth, currentWindowHeight); //!!! Changed to reflect the above changes
     //  Calculate the aspect ratio of the moniter
-    float aspect_ratio = currentWindowWidth / static_cast<float>(currentWindowHeight); //!!! Changed to reflect the above changes
+    float aspect_ratio = currentWindowHeight / static_cast<float>(currentWindowWidth); //!!! Changed to reflect the above changes
     //  Construct your window
     sf::RenderWindow window(desktop, "Mandelbrot Set!!", sf::Style::Default);
     //  Construct an object of type ComplexPlane

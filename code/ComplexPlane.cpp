@@ -12,7 +12,7 @@ ComplexPlane::ComplexPlane(float aspectRatio)
 
     //  setSize of the m_view variable to BASE_WIDTH, -BASE_HEIGHT*m_aspectRatio
     //  Negative size for the height will invert the vertical axis
-    m_view.setSize(BASE_WIDTH, -BASE_HEIGHT / m_aspectRatio);
+    m_view.setSize(BASE_WIDTH, -BASE_HEIGHT * m_aspectRatio);
 
     //  setCenter of the m_view variable to 0.0, 0.0
     m_view.setCenter(0.0, 0.0);
