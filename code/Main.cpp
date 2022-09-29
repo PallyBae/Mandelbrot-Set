@@ -20,11 +20,15 @@
 |___|****                                   ****|___|
 *****************************************************
 \*-------------------------------------------------*/
+
+const int TEXTBOX_BKG_W_ALIGN = 2;
+const int TEXTBOX_BKG_H_ALIGN = 7;
+
 int main()
 {
     //!!! Created a windowScale value to test how the program will behave with different scales
     //!!! also give the benefit of using winsdowScale in other parts of code such as Text size
-    float windowScale = 0.75f;
+    float windowScale = 0.8f;
 
     //!!! Same here! Can call the following 2 variables in other parts to avoid having to use any object member accessors
     float currentWindowWidth  = sf::VideoMode::getDesktopMode().width  * windowScale; 
@@ -41,7 +45,16 @@ int main()
 
     //  Construct Font and Text Objects
     sf::Font font;
+    font.loadFromFile("fonts/SebastianSerifNbp-7weB.ttf");
     sf::Text instruction_text;
+    instruction_text.setFont(font);
+    instruction_text.setPosition( {currentWindowWidth * 0.02f, currentWindowHeight * 0.02f} );
+
+    //Create a rectangle for the text to be drawn on top of.
+    const int textBoxBgBorder = 5;
+    sf::RectangleShape textBoxBg;
+    textBoxBg.setFillColor(sf::Color(0,0,0,127));
+    textBoxBg.setPosition( {instruction_text.getPosition().x - TEXTBOX_BKG_W_ALIGN - textBoxBgBorder, instruction_text.getPosition().y + TEXTBOX_BKG_H_ALIGN - textBoxBgBorder});
 
     //  Construct a VertexArray
     sf::VertexArray vertex_array(sf::Points);
@@ -68,7 +81,7 @@ int main()
     sf::Vector2f mouse;
     sf::Vector2f pixel_location;
     int point_counter = 0;
-    size_t iterations_storage;
+    size_t iterations_storage = 0;
 
     /*----------------------------------*\
     **************************************
@@ -161,11 +174,10 @@ int main()
         {
             //  Double for loop to loop through all pixels in the screen height and width
             //  Use j for x and i for y
-            int i = 0;
             int percentUpdate = 0;
             int prevPercent = 0;
             //point_counter = 0;
-            for(i = 0; i < currentWindowHeight; i++) //!!! using the new currentWindowHeight var
+            for (int i = 0; i < static_cast<int>(currentWindowHeight); i++) //!!! using the new currentWindowHeight var
             {
                 percentUpdate = (i / currentWindowHeight) * 100;
                 if (percentUpdate != prevPercent && percentUpdate % 5 == 0)
@@ -173,15 +185,12 @@ int main()
                     std::cout << "Percent: " << percentUpdate << std::endl;
                 }
 
-                for(int j = 0; j < currentWindowWidth; j++) //!!! using the new currentWindowWidth var
+                for(int j = 0; j < static_cast<int>(currentWindowWidth); j++) //!!! using the new currentWindowWidth var
                 {
-                    vertex_array[point_counter].position = sf::Vector2f(j,i);
-                    point_counter ++;
-
                     //  Set the position variable in the element of VertexArray
                     //  that corresponds to the screen coordinate j,i
                     //  This is difficult, so study the line of code below:
-                    vertex_array[j+i*pixelWidth].position = {(float)j,(float)i};
+                    vertex_array[j+i*static_cast<int>(currentWindowWidth)].position = {(float)j,(float)i};
 
                     //  Use mapPixelToCoords to find the Vector2f coordinate in the ComplexPlane View
                     //  that corresponds to the screen pixel location at j,i
@@ -192,9 +201,9 @@ int main()
 
                     //  Declare three local Uint8 variables r,g,b to store the RGB values for the curent pixel
                     //  Uint8 is an alias for unsigned char
-                    sf::Uint8 r;
-                    sf::Uint8 g;
-                    sf::Uint8 b;
+                    sf::Uint8 r = 0;
+                    sf::Uint8 g = 0;
+                    sf::Uint8 b = 0;
                     
                     //  Pass the number of iterations and RGB variables into ComplexPlane::iterationsToRGB
                     //  This will assign the RGB values by reference
@@ -213,6 +222,7 @@ int main()
 
             //  Call loadText from the ComplexPlane object
             c_plane.loadText(instruction_text);
+            textBoxBg.setSize({ instruction_text.getLocalBounds().width + textBoxBgBorder*2 , instruction_text.getLocalBounds().height + textBoxBgBorder*2} );
         }
 
         /*--------------------------------------*\
@@ -230,6 +240,9 @@ int main()
 
         //  Draw the VertexArray
         window.draw(vertex_array);
+
+        //Draw the text background
+        window.draw(textBoxBg);
 
         //  Draw the Text
         window.draw(instruction_text);

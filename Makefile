@@ -10,7 +10,7 @@ LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 # Makefile settings - Can be customized.
 APPNAME = Mandelbrot-Set.out
 EXT = .cpp
-SRCDIR = ./Code
+SRCDIR = ./code
 OBJDIR = ./obj
 
 ############## Do not change anything from here downwards! #############
