@@ -79,14 +79,14 @@ void ComplexPlane::setMouseLocation(sf::Vector2f coord)
 }
 
 //  Text Loading Function
-void ComplexPlane::loadText(sf::Text& text)
+void ComplexPlane::loadText(sf::Text& text, sf::Vector2f coord)
 {
     //  Creating a local stringstream variable
     std::stringstream ss;
 
     //  Pass the text input I want into the local variable
     ss << "Mandelbrot Set" << std::endl << "Center: (" << m_view.getCenter().x << "," << m_view.getCenter().y << ")" <<
-    std::endl << "Cursor: (" << m_mouseLocation.x << "," << m_mouseLocation.y << ")" << std::endl <<
+    std::endl << "Cursor: (" << coord.x << "," << coord.y << ")" << std::endl <<
     "Left-click to Zoom in" << std::endl << "Right-click to Zoom out";
 
     //  setString the stringstream variable into the text object
@@ -110,6 +110,7 @@ size_t ComplexPlane::countIterations(sf::Vector2f coord)
     return iteration_count;
 }
 
+/*
 //  Iteration To RGB Color Function
 void ComplexPlane::iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf::Uint8& b)
 {
@@ -152,5 +153,77 @@ void ComplexPlane::iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf:
         r = 255;
         g = 255*(1- (count-1)/15);
         b = 255;
+    }
+}
+*/
+
+//  Iteration To RGB Color Function
+void ComplexPlane::iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf::Uint8& b)
+{
+    double float_count = count;
+
+    //  Default condition
+    if (count == MAX_ITER)
+    {
+        //Sets the color to BLACK
+        r = 0;
+        g = 0;
+        b = 0;
+    }
+
+    //  Green to white
+    else if (count <= 259 && count >= 160)
+    {
+        r = 74 + 181*((float_count - 160)/99);
+        g = 240 + 15*((float_count - 160)/99);
+        b = 105 + 150*((float_count - 160)/99);
+    }
+
+    //  Purple to Green
+    else if (count <= 159 && count >= 94)
+    {
+        r = 58 + 16*((float_count - 94)/65);
+        g = 40 + 200*((float_count - 94)/65);
+        b = 146 - 41*((float_count - 94)/65);
+    }
+
+    //  White to Purple
+    else if (count <= 93 && count >= 63)
+    {
+        r = 255 - 197*((float_count - 63)/30);
+        g = 255 - 215*((float_count - 63)/30);
+        b = 255 - 109*((float_count - 63)/30);
+    }
+
+    //  Pink to White
+    else if (count <= 62 && count >= 42)
+    {
+        r = 255 - 0*((float_count - 42)/20);
+        g = 29 + 226*((float_count - 42)/20);
+        b = 175 + 80*((float_count - 42)/20);
+    }
+
+    //  Turqoise to Pink
+    else if (count <= 41 && count >= 31)
+    {
+        r = 0 + 255*((float_count - 31)/10);
+        g = 155 - 126*((float_count - 31)/10);
+        b = 142 + 33*((float_count - 31)/10);
+    }
+
+    //  Purple to Turqoise
+    else if (count <= 30 && count >= 15)
+    {
+        r = 94 - 94*((float_count - 15)/15);
+        g = 21 + 134*((float_count - 15)/15);
+        b = 192 - 50*((float_count - 15)/15);
+    }
+
+    //  Red to Purple
+    else if (count <= 14 && count >= 1)
+    {
+        r = 255 - 161*((float_count - 1)/13);
+        g = 60 - 39*((float_count - 1)/13);
+        b = 0 + 192*((float_count - 1)/13);
     }
 }

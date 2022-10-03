@@ -48,15 +48,13 @@ int main()
     font.loadFromFile("fonts/SebastianSerifNbp-7weB.ttf");
     sf::Text instruction_text;
     instruction_text.setFont(font);
-    instruction_text.setFillColor(sf::Color(255,255,255,255));
-    instruction_text.setOutlineColor(sf::Color(0,0,0,255));
-    instruction_text.setOutlineThickness(1);
-
+    instruction_text.setPosition( {currentWindowWidth * 0.02f, currentWindowHeight * 0.02f} );
 
     //Create a rectangle for the text to be drawn on top of.
     const int textBoxBgBorder = 5;
     sf::RectangleShape textBoxBg;
     textBoxBg.setFillColor(sf::Color(0,0,0,127));
+    textBoxBg.setPosition( {instruction_text.getPosition().x - TEXTBOX_BKG_W_ALIGN - textBoxBgBorder, instruction_text.getPosition().y + TEXTBOX_BKG_H_ALIGN - textBoxBgBorder});
 
     //  Construct a VertexArray
     sf::VertexArray vertex_array(sf::Points, currentWindowWidth*currentWindowHeight);
@@ -141,7 +139,7 @@ int main()
             {
                 //  Use mapPixelToCoords to find the Vector2f coordinate
                 //  in the ComplexPlane View that corresponds to the screen mouse location
-                mouse = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y }, c_plane.getView());
+                mouse = window.mapPixelToCoords({ event.mouseMove.x, event.mouseMove.y }, c_plane.getView());
 
                 //  setMouseLocation on the ComplexPLane object to store this coordinate
                 //  This will be used later to display the mouse coordinates as it moves
@@ -170,15 +168,13 @@ int main()
             //  Use j for x and i for y
             int percentUpdate = 0;
             int prevPercent = 0;
-            std::string percent = "";
+            //point_counter = 0;
             for (int j = 0; j < currentWindowWidth; j++) //!!! using the new currentWindowHeight var
             {
                 percentUpdate = (j / static_cast<float>(currentWindowWidth)) * 100.0;
                 if (percentUpdate != prevPercent && percentUpdate % 5 == 0)
                 {
-                    percent = std::to_string(percentUpdate) + "\% Completed";
-
-                    std::cout << percent << std::endl;
+                    std::cout << "Percent: " << percentUpdate << std::endl;
                 }
 
                 for(int i = 0; i < currentWindowHeight; i++) //!!! using the new currentWindowWidth var
@@ -211,10 +207,15 @@ int main()
                 prevPercent = percentUpdate;
 
             }
+            std::cout << "Percent: 100" << std::endl;
+
+            std::cout << aspect_ratio << std::endl;
             //  Set the state to DISPLAYING
             state_variable = DISPLAYING;
 
-            
+            //  Call loadText from the ComplexPlane object
+            c_plane.loadText(instruction_text, mouse);
+            textBoxBg.setSize({ instruction_text.getLocalBounds().width + textBoxBgBorder*2 , instruction_text.getLocalBounds().height + textBoxBgBorder*2} );
         }
 
         /*--------------------------------------*\
@@ -235,7 +236,7 @@ int main()
 
         //Draw the instruction_text and textBoxbg
         //  Call loadText from the ComplexPlane object
-        c_plane.loadText(instruction_text);
+        c_plane.loadText(instruction_text, mouse);
 
         instruction_text.setPosition( { currentWindowWidth * 0.02f, currentWindowHeight * 0.02f } );
 
@@ -243,7 +244,6 @@ int main()
         textBoxBg.setSize({ instruction_text.getLocalBounds().width + textBoxBgBorder*2 , instruction_text.getLocalBounds().height + textBoxBgBorder*2} );
         window.draw(textBoxBg);
         window.draw(instruction_text);
-
 
         //  Display
         window.display();
